@@ -1,0 +1,4 @@
+alice:{SSHA}xsQYxwTOV7tIbzRn00RBIvECxKT1vjcm:wonderland
+bob:{SSHA}VnT6YAQ8+e4BkDCsERqH9HWa4A40BuB8
+charlie:{SSHA}wVbnWJfB6e2UreN/BjZhHo2DtyGltJYS
+felix:{SSHA}hmwNBEOOGCitBOlbMLpELoPP1UV5zxkD

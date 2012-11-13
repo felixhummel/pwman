@@ -1,0 +1,19 @@
+*.egg-info
+*.py[cod]
+
+# virtualenv
+bin/
+include/
+lib/python2.7/
+local/
+
+# distribute
+*.egg
+build/
+
+# tests
+.tox
+.coverage
+docs/coverage/*
+pytestdebug.log
+
