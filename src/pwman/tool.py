@@ -16,7 +16,8 @@ Options:
   -p            Print a hash for given user
 """
 # TODO http://pythonpaste.org/scripttest/modules/scripttest.html maybe?
-__version__ = '0.0.2'
+import pkg_resources
+__version__ = pkg_resources.get_distribution("pwman").version
 
 import getpass
 import os
