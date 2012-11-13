@@ -23,7 +23,7 @@ In a virtual env (recommended)::
     . bin/activate
 
     # install (requires pip >= 0.8.2)
-    pip install git+https://github.com/felixhummel/pwman.git
+    pip install https://github.com/felixhummel/pwman/archive/1.0.0.zip
 
     # deactivate virtualenv
     deactivate
@@ -37,10 +37,10 @@ In a virtual env (recommended)::
 
 Globally::
 
-    sudo pip install git+https://github.com/felixhummel/pwman.git
+    sudo pip install https://github.com/felixhummel/pwman/archive/1.0.0.zip
     pwman --help
 
-Enjoy!
+Tested on vanilla Ubuntu 12.04 Server.
 
 Uninstall
 ---------
