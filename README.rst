@@ -16,21 +16,17 @@ Ubuntu::
 
 Install
 -------
-In a virtual env (recommended)::
+In a virtualenv (recommended)::
 
     # go where pwman should live
     mkdir -p ~/lib/python/pwman
     cd ~/lib/python/pwman
 
-    # create and activate virtualenv
+    # create virtualenv
     virtualenv .
-    . bin/activate
 
-    # install (requires pip >= 0.8.2)
-    pip install https://github.com/felixhummel/pwman/archive/1.0.0.zip
-
-    # deactivate virtualenv
-    deactivate
+    # install using virtualenv's pip (>= 0.8.2)
+    ./bin/pip install https://github.com/felixhummel/pwman/archive/1.0.0.zip
 
     # add ~/bin to your PATH if you have not done so already
     cd ~/bin
