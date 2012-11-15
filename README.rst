@@ -10,6 +10,10 @@ Ubuntu::
 
     sudo apt-get install libzip-dev
 
+`Virtualenv <http://www.virtualenv.org/en/latest/>`__ (optional)::
+
+    sudo apt-get install python-virtualenv
+
 Install
 -------
 In a virtual env (recommended)::
