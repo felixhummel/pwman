@@ -1,11 +1,7 @@
 *.egg-info
 *.py[cod]
 
-# virtualenv
-bin/
-include/
-lib/python2.7/
-local/
+.virtualenv
 
 # distribute
 *.egg

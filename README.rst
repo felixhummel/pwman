@@ -52,13 +52,13 @@ Develop
 -------
 First timer::
 
-    virtualenv .
-    . bin/activate
+    virtualenv .virtualenv
+    source .virtualenv/bin/activate
     python setup.py develop
 
 Next time::
 
-    . bin/activate
+    source .virtualenv/bin/activate
 
 Testing
 -------
@@ -72,7 +72,7 @@ Run::
 
     tox
 
-This creates a virtualenv in `.tox/py27` and runs all tests.
+This creates a virtualenvs for all supported versions (see `tox.ini`) and runs all tests.
 
 - Coverage docs: http://nedbatchelder.com/code/coverage/
 

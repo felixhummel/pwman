@@ -59,8 +59,8 @@ def main():
     if delete_user:
         passwdfile.delete(username)
     else:
-        nu = pwman.NewEntry(username, password, args['<comment>'])
-        passwdfile.update(nu)
+        nu = pwman.Entry.from_plain_pw(username, password, args['<comment>'])
+        passwdfile.set(nu)
 
     passwdfile.save()
 

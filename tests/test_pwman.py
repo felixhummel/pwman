@@ -1,8 +1,6 @@
 import json
-import os
 
 import pytest
-
 from pwman import pwman
 
 
@@ -28,28 +26,35 @@ def test_hash():
     assert (len(hashed_password) == 38)  # 32 + 6 for {SSHA} prefix
 
 
-def test_OldEntry():
-    line = 'felix:{SSHA}hmwNBEOOGCitBOlbMLpELoPP1UV5zxkD'
-    e = pwman.OldEntry(line)
-    assert e.username == 'felix'
-    assert e.password == '{SSHA}hmwNBEOOGCitBOlbMLpELoPP1UV5zxkD'
-    assert e.comment is None
-
-
-def test_NewEntry():
-    e1 = pwman.NewEntry('felix', 'secret')
+def test_Entry():
+    e0 = pwman.Entry('felix', '{ssha}hmwnbeoogcitbolbmlpelopp1uv5zxkd')
+    assert e0.username == 'felix'
+    assert e0.password == '{ssha}hmwnbeoogcitbolbmlpelopp1uv5zxkd'
+    e1 = pwman.Entry.from_plain_pw('felix', 'secret')
     assert e1.username == 'felix'
     assert e1.password.startswith('{SSHA}')
     assert e1.comment is None
+    assert e1.verify('secret')
     s = json.dumps(e1.__dict__)
     assert len(s) > 2  # more than '{}'
     # with comment
-    e2 = pwman.NewEntry('felix', 'secret', 'some comment')
+    e2 = pwman.Entry.from_plain_pw('felix', 'secret2', 'some comment')
     assert e2.username == 'felix'
     assert e2.password.startswith('{SSHA}')
     assert e2.comment is 'some comment'
+    assert e2.verify('secret2')
     s = json.dumps(e2.__dict__)
     assert len(s) > 2  # more than '{}'
+    # make sure hashes differ
+    a = pwman.Entry.from_plain_pw('felix', 'secret')
+    b = pwman.Entry.from_plain_pw('felix', 'secret')
+    assert a.password != b.password
+    # parse line
+    line = 'felix:{SSHA}hmwNBEOOGCitBOlbMLpELoPP1UV5zxkD'
+    e = pwman.Entry.from_line(line)
+    assert e.username == 'felix'
+    assert e.password == '{SSHA}hmwNBEOOGCitBOlbMLpELoPP1UV5zxkD'
+    assert e.comment is None
 
 
 def test_AuthDict():
@@ -67,21 +72,21 @@ def test_AuthDict():
 def test_AuthFile(tmp_path):
     # create, save
     af = pwman.AuthFile(tmp_path, create=True)
-    felix = pwman.NewEntry('felix', 'secret', 'hello world')
-    af.update(felix)
+    felix = pwman.Entry.from_plain_pw('felix', 'secret', 'hello world')
+    af.set(felix)
     af.save()
     # load, add user, forget to save
     af2 = pwman.AuthFile(tmp_path)
-    assert len(af2.auth_dict.keys()) == 1
-    alice = pwman.NewEntry('alice', 'alice')
-    af2.update(alice)
-    assert len(af2.auth_dict.keys()) == 2
+    assert len(af2) == 1
+    alice = pwman.Entry.from_plain_pw('alice', 'alice')
+    af2.set(alice)
+    assert len(af2) == 2
     # load, add user, save
     af3 = pwman.AuthFile(tmp_path)
-    assert len(af3.auth_dict.keys()) == 1
-    bob = pwman.NewEntry('bob', 'bob')
-    af3.update(bob)
-    assert len(af3.auth_dict.keys()) == 2
+    assert len(af3) == 1
+    bob = pwman.Entry.from_plain_pw('bob', 'bob')
+    af3.set(bob)
+    assert len(af3) == 2
     af3.save()
     assert len(af3.userlist) == 2
     felix_tup = af3.userlist[1]
