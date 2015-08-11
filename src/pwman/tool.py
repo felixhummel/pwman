@@ -17,16 +17,17 @@ Options:
 """
 # TODO http://pythonpaste.org/scripttest/modules/scripttest.html maybe?
 import pkg_resources
+
 __version__ = pkg_resources.get_distribution("pwman").version
 
 import getpass
 import os
 import sys
-import random
 
 from docopt import docopt
 
 from . import pwman
+
 
 def main():
     args = docopt(__doc__, version=__version__)
@@ -62,6 +63,7 @@ def main():
         passwdfile.update(nu)
 
     passwdfile.save()
+
 
 if __name__ == '__main__':
     main()

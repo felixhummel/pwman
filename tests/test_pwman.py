@@ -5,25 +5,28 @@ import pytest
 
 from pwman import pwman
 
+
 @pytest.fixture()
 def tmp_path(tmpdir):
     return str(tmpdir.join('users'))
 
+
 def test_hash():
     h = pwman.hash('felix', 'secret', 'master of the universe')
     parts = h.split(':')
-    assert(len(parts) == 3)
+    assert (len(parts) == 3)
     username, hashed_password, comment = parts
-    assert(username == 'felix')
-    assert(len(hashed_password) == 38)  # 32 + 6 for {SSHA} prefix
-    assert(comment == 'master of the universe')
+    assert (username == 'felix')
+    assert (len(hashed_password) == 38)  # 32 + 6 for {SSHA} prefix
+    assert (comment == 'master of the universe')
     # empty comment
     h = pwman.hash('felix', 'secret')
     parts = h.split(':')
-    assert(len(parts) == 2)
+    assert (len(parts) == 2)
     username, hashed_password = parts
-    assert(username == 'felix')
-    assert(len(hashed_password) == 38)  # 32 + 6 for {SSHA} prefix
+    assert (username == 'felix')
+    assert (len(hashed_password) == 38)  # 32 + 6 for {SSHA} prefix
+
 
 def test_OldEntry():
     line = 'felix:{SSHA}hmwNBEOOGCitBOlbMLpELoPP1UV5zxkD'
@@ -31,6 +34,7 @@ def test_OldEntry():
     assert e.username == 'felix'
     assert e.password == '{SSHA}hmwNBEOOGCitBOlbMLpELoPP1UV5zxkD'
     assert e.comment is None
+
 
 def test_NewEntry():
     e1 = pwman.NewEntry('felix', 'secret')
@@ -47,6 +51,7 @@ def test_NewEntry():
     s = json.dumps(e2.__dict__)
     assert len(s) > 2  # more than '{}'
 
+
 def test_AuthDict():
     contents = open('tests/fixtures/example_file.txt').read()
 
@@ -57,6 +62,7 @@ def test_AuthDict():
     assert alice.comment == 'wonderland'
     s = str(ad)
     assert s.strip() == contents.strip()
+
 
 def test_AuthFile(tmp_path):
     # create, save
@@ -90,14 +96,17 @@ def test_AuthFile(tmp_path):
     af4.delete('felix')
     assert af4.users == ['bob']
 
+
 def test_AuthFileRaisesIOError(tmp_path):
     with pytest.raises(IOError):
         pwman.AuthFile(tmp_path, create=False)
+
 
 def test_AuthFileRaisesKeyError(tmp_path):
     with pytest.raises(KeyError):
         af = pwman.AuthFile(tmp_path, create=True)
         af.delete('thisuserdoesnotexist')
+
 
 def test_tool(tmp_path, capsys, monkeypatch):
     from pwman import tool
@@ -128,4 +137,3 @@ def test_tool(tmp_path, capsys, monkeypatch):
     # delete
     sys.argv = ['pwman', '-D', tmp_path, 'alice']
     tool.main()
-

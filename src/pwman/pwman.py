@@ -3,9 +3,10 @@ import os.path
 from passlib.context import CryptContext
 
 nginx_context = CryptContext(
-        schemes=['ldap_salted_sha1'],
-        default='ldap_salted_sha1'
-        )
+    schemes=['ldap_salted_sha1'],
+    default='ldap_salted_sha1'
+)
+
 
 def hash(username, password, comment=None):
     """Generates salted SHA-1 hash"""
@@ -13,6 +14,7 @@ def hash(username, password, comment=None):
     if comment:
         parts.append(comment)
     return ':'.join(parts)
+
 
 class Entry(object):
     def _hash(self, password):
@@ -37,6 +39,7 @@ class NewEntry(Entry):
 
     They know their hashed_password and immediately forget the plaintext one.
     """
+
     def __init__(self, username, password, comment=None):
         self.username = username
         self.password = self._hash(password)
@@ -47,10 +50,11 @@ class OldEntry(Entry):
     """
     Entries with username, password and optional comment, as parsed from a line.
     """
+
     def __init__(self, line):
         # Account for missing comment
         parts = line.split(':')
-        assert(len(parts) in [2,3])
+        assert (len(parts) in [2, 3])
         if len(parts) == 2:
             parts.append(None)
         self.username, self.password, self.comment = parts
@@ -60,6 +64,7 @@ class AuthDict(dict):
     """
     List of password file entries. Duh...
     """
+
     def __init__(self, contents):
         if contents == '':
             return
@@ -84,6 +89,7 @@ class AuthDict(dict):
 
     def __str__(self):
         return self.__unicode__()
+
 
 class AuthFile(object):
     def __init__(self, path, create=False):
@@ -117,4 +123,3 @@ class AuthFile(object):
 
     def asdict(self):
         return dict(self.auth_dict)
-
