@@ -6,6 +6,7 @@
 # distribute
 *.egg
 build/
+dist/
 
 # tests
 .tox
