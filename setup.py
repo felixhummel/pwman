@@ -2,15 +2,20 @@
 
 from setuptools import setup, find_packages
 
+with open('README.rst') as file:
+    long_description = file.read()
+
 setup(
     name='pwman',
     version='2.0.0',
     description='Simple command line client to manage nginx basic auth files. Think htpasswd (but not quite) as lib. Writes SSHA hashes.',
+    long_description=long_description,
     author='Felix Hummel',
     author_email='felix@felixhummel.de',
     maintainer='Felix Hummel',
     maintainer_email='felix@felixhummel.de',
-    url='http://felixhummel.de/pwman',
+    url='https://github.com/felixhummel/pwman',
+    license='MIT',
     package_dir={'': 'src'},
     packages=find_packages('src'),
     install_requires=['distribute', 'docopt', 'passlib', 'six'],
