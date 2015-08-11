@@ -18,3 +18,14 @@ shell:
 example_gen:
 	pwman example_gen
 
+# thx, http://peterdowns.com/posts/first-time-with-pypi.html
+.PHONY: publish_test
+publish_test:
+	python setup.py register -r pypitest
+	python setup.py sdist upload -r pypitest
+
+.PHONY: publish_prod
+publish_prod:
+	python setup.py register -r pypi
+	python setup.py sdist upload -r pypi
+
