@@ -26,7 +26,7 @@ import random
 
 from docopt import docopt
 
-import pwman
+from . import pwman
 
 def main():
     args = docopt(__doc__, version=__version__)
@@ -50,7 +50,7 @@ def main():
         password = getpass.getpass()
 
     if print_flag:
-        print pwman.hash(username, password)
+        print(pwman.hash(username, password))
         sys.exit(0)
 
     passwdfile = pwman.AuthFile(filename, create=create_file)

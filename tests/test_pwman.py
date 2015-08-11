@@ -98,3 +98,34 @@ def test_AuthFileRaisesKeyError(tmp_path):
     with pytest.raises(KeyError):
         af = pwman.AuthFile(tmp_path, create=True)
         af.delete('thisuserdoesnotexist')
+
+def test_tool(tmp_path, capsys, monkeypatch):
+    from pwman import tool
+    import sys
+    # error for non-existing files
+    try:
+        sys.argv = ['pwman', '-b', tmp_path, 'alice', 'secret']
+        tool.main()
+    except SystemExit as e:
+        out, err = capsys.readouterr()
+        assert 'does not exist' in err
+    # create
+    sys.argv = ['pwman', '-bc', tmp_path, 'alice', 'secret']
+    tool.main()
+    # read pw from stdin
+    import getpass
+    monkeypatch.setattr(getpass, 'getpass', lambda: 'secret2')
+    sys.argv = ['pwman', tmp_path, 'alice']
+    tool.main()
+    # print
+    try:
+        sys.argv = ['pwman', '-p', tmp_path, 'alice']
+        tool.main()
+    except SystemExit as e:
+        assert e.code == 0
+        out, err = capsys.readouterr()
+        assert '{SSHA}' in out
+    # delete
+    sys.argv = ['pwman', '-D', tmp_path, 'alice']
+    tool.main()
+
