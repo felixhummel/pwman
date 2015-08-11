@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='pwman',
-    version='1.1.0',
+    version='2.0.0',
     description='Simple command line client to manage nginx basic auth files. Think htpasswd (but not quite) as lib. Writes SSHA hashes.',
     author='Felix Hummel',
     author_email='felix@felixhummel.de',
