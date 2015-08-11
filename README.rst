@@ -1,6 +1,11 @@
 pwman
 =====
-Simple manager for nginx basic auth files. Think htpasswd (but not quite) as lib. Writes SSHA hashes.
+Manage Nginx basic auth files.
+
+Implements a subset of commands from ``htpasswd``.
+
+Writes SSHA hashes.
+
 
 Dependencies
 ------------
@@ -14,39 +19,44 @@ Ubuntu::
 
     sudo apt-get install python-virtualenv
 
+
 Install
 -------
-In a virtualenv (recommended)::
+For the current user (recommended)::
 
-    # go where pwman should live
-    mkdir -p ~/lib/python/pwman
-    cd ~/lib/python/pwman
+    pip install --user pwman
+    # make sure you have $HOME/.local/bin on your PATH
+    pwman --help
+
+In a virtualenv::
 
     # create virtualenv
-    virtualenv .
+    mkdir -p ~/lib/python
+    virtualenv ~/lib/python/pwman
 
     # install using virtualenv's pip (>= 0.8.2)
-    ./bin/pip install https://github.com/felixhummel/pwman/archive/1.0.0.zip
+    ~/lib/python/pwman/bin/pip install pwman
 
     # add ~/bin to your PATH if you have not done so already
     cd ~/bin
     ln -s ~/lib/python/pwman/bin/pwman
 
-    # use
     pwman --help
 
-Globally::
+System-wide::
 
-    sudo pip install https://github.com/felixhummel/pwman/archive/1.0.0.zip
+    sudo pip install pwman
     pwman --help
 
 Tested on vanilla Ubuntu 12.04 Server.
+
 
 Uninstall
 ---------
 The virtual env::
 
     rm -r ~/bin/pwman ~/lib/python/pwman
+
 
 Develop
 -------
@@ -59,6 +69,7 @@ First timer::
 Next time::
 
     source .virtualenv/bin/activate
+
 
 Testing
 -------
@@ -77,4 +88,3 @@ This creates a virtualenvs for all supported versions (see `tox.ini`) and runs a
 - Coverage docs: http://nedbatchelder.com/code/coverage/
 
 .. vim: set ft=rst :
-
