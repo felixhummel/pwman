@@ -18,7 +18,7 @@ setup(
     license='MIT',
     package_dir={'': 'src'},
     packages=find_packages('src'),
-    install_requires=['distribute', 'docopt', 'passlib', 'six'],
+    install_requires=['docopt', 'passlib', 'six'],
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
