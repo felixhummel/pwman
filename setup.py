@@ -7,7 +7,7 @@ with open('README.rst') as file:
 
 setup(
     name='pwman',
-    version='2.0.0',
+    version='2.0.1',
     description='Manage Nginx basic auth files. Think htpasswd as lib. Writes SSHA hashes.',
     long_description=long_description,
     author='Felix Hummel',
