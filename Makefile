@@ -1,31 +1,34 @@
-.PHONY: default develop tests coverage shell example_gen
-
+.PHONY: default
 default: tests
 
+.PHONY: develop
 develop:
 	python setup.py develop
 
+.PHONY: tests
 tests:
-	tox -- -pdb
+	tox
 
+.PHONY: coverage
 coverage: tests
 	python -mwebbrowser -t docs/coverage/index.html
 
+.PHONY: shell
 shell:
 	tox --notest
 	.tox/py27/bin/python
 
+.PHONY: example_gen
 example_gen:
 	pwman example_gen
 
 # thx, http://peterdowns.com/posts/first-time-with-pypi.html
 .PHONY: publish_test
 publish_test:
-	python setup.py register -r pypitest
-	python setup.py sdist upload -r pypitest
+	python setup.py sdist bdist_wheel
+	twine upload --repository-url https://test.pypi.org/legacy/ dist/*
 
 .PHONY: publish_prod
 publish_prod:
-	python setup.py register -r pypi
-	python setup.py sdist upload -r pypi
+	python setup.py sdist bdist_wheel
 
